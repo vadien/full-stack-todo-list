@@ -39,9 +39,23 @@ public class TodoService {
             return result;
         }
         Todo foundTodo = result.get();
+        foundTodo.setTitle(data.getTitle());
+        foundTodo.setCategory(data.getCategory());
+        foundTodo.setArchived(data.isArchived());
+        foundTodo.setUpdatedAt(new Date());
+
         Todo updatedTodo = this.repo.save(foundTodo);
 
         return Optional.of(updatedTodo);
+    }
+
+    public Optional<Todo> deleteTodoById(Long id) {
+        Optional<Todo> result = this.findById(id);
+        if (result.isEmpty()) {
+            return result;
+        }
+        this.repo.delete(result.get());
+        return result;
     }
 
 }

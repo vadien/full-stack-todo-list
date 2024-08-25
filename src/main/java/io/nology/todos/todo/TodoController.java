@@ -1,9 +1,10 @@
 package io.nology.todos.todo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,13 +41,31 @@ public class TodoController {
         return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
+    // READ BY ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Todo> findById(@PathVariable long id) throws Exception {
+        Optional<Todo> result = this.todoService.findById(id);
+        if (result.isEmpty()) {
+            throw new Exception("Could not find todo with id" + id);
+        }
+        Todo foundTodo = result.get();
+        return new ResponseEntity<>(foundTodo, HttpStatus.OK);
+    }
+
     // UPDATE
-    @PatchMapping
-public ResponseEntity<Todo> updateTodoById (@PathVariable Long id, @Valid RequestBody UpdateTodoDTO data) throws Exception {
-    Optional<Todo> result = this.todoService.updateTodoById(id, data);
-    Todo updatedTodo = result.orElseThrow(() -> new Exception("Could not find post"));
-    return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
-}
+    @PatchMapping("/{id}")
+    public ResponseEntity<Todo> updateTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
+            throws Exception {
+        Optional<Todo> result = this.todoService.updateTodoById(id, data);
+        Todo updatedTodo = result.orElseThrow(() -> new Exception("Could not find post"));
+        return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
+    }
 
     // DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Todo> deleteTodoById(@PathVariable Long id) throws Exception {
+        Optional<Todo> result = this.todoService.deleteTodoById(id);
+        Todo deletedTodo = result.orElseThrow(() -> new Exception("Could not find post"));
+        return new ResponseEntity<>(deletedTodo, HttpStatus.OK);
+    }
 }

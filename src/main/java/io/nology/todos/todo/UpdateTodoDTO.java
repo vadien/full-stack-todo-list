@@ -30,4 +30,16 @@ public class UpdateTodoDTO {
         return isArchived;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setArchived(boolean isArchived) {
+        this.isArchived = isArchived;
+    }
+
 }
