@@ -15,6 +15,7 @@ public class TodoService {
     private TodoRepository repo;
 
     public Todo createTodo(@Valid CreateTodoDTO data) {
+        // TODO: fix to use category column join
         Todo newTodo = new Todo();
         newTodo.setTitle(data.getTitle().trim());
         newTodo.setCategory(data.getCategory());

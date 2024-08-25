@@ -1,10 +1,13 @@
 package io.nology.todos.todo;
 
 import java.util.Date;
+import java.util.Locale.Category;
 
 import io.nology.todos.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -21,9 +24,9 @@ public class Todo extends BaseEntity {
     @Column
     private String title;
 
-    @NotBlank
-    @Column
-    private String category;
+    @ManyToOne
+    @JoinColumn(columnDefinition = "category_id")
+    private Category category;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,11 +43,11 @@ public class Todo extends BaseEntity {
         this.title = title;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

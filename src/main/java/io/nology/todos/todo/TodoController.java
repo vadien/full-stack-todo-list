@@ -1,7 +1,6 @@
 package io.nology.todos.todo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("todos")
 public class TodoController {
 
-    // autowire service once created
     @Autowired
     private TodoService todoService;
 
