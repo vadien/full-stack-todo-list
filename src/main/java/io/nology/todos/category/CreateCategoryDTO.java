@@ -1,21 +1,13 @@
 package io.nology.todos.category;
 
-import java.util.List;
+import org.hibernate.validator.constraints.Length;
 
-import io.nology.todos.todo.Todo;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "categories")
 public class CreateCategoryDTO {
-    @Column(unique = true)
+    @NotBlank
+    @Length(min = 1, max = 255)
     private String name;
-
-    @OneToMany(mappedBy = "category")
-    private List<Todo> todos;
 
     public String getName() {
         return name;
@@ -23,14 +15,6 @@ public class CreateCategoryDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Todo> getTodos() {
-        return todos;
-    }
-
-    public void setTodos(List<Todo> todos) {
-        this.todos = todos;
     }
 
 }
