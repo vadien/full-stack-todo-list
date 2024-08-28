@@ -1,8 +1,8 @@
 package io.nology.todos.todo;
 
 import java.util.Date;
-import java.util.Locale.Category;
 
+import io.nology.todos.category.Category;
 import io.nology.todos.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

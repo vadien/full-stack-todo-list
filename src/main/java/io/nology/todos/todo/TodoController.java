@@ -25,21 +25,18 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-    // CREATE
     @PostMapping
     public ResponseEntity<Todo> postMethodName(@Valid @RequestBody CreateTodoDTO data) {
         Todo createdTodo = this.todoService.createTodo(data);
         return new ResponseEntity<Todo>(createdTodo, HttpStatus.CREATED);
     }
 
-    // READ
     @GetMapping
     public ResponseEntity<List<Todo>> findAllTodos() {
         List<Todo> todoList = this.todoService.findAll();
         return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
-    // READ BY ID
     @GetMapping("/{id}")
     public ResponseEntity<Todo> findById(@PathVariable long id) throws Exception {
         Optional<Todo> result = this.todoService.findById(id);
@@ -50,7 +47,8 @@ public class TodoController {
         return new ResponseEntity<>(foundTodo, HttpStatus.OK);
     }
 
-    // UPDATE
+    // TODO: Get by category search
+
     @PatchMapping("/{id}")
     public ResponseEntity<Todo> updateTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
             throws Exception {
@@ -59,7 +57,6 @@ public class TodoController {
         return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Todo> deleteTodoById(@PathVariable Long id) throws Exception {
         Optional<Todo> result = this.todoService.deleteTodoById(id);

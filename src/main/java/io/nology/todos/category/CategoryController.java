@@ -3,7 +3,6 @@ package io.nology.todos.category;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.nology.todos.todo.Todo;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,14 +46,16 @@ public class CategoryController {
         return new ResponseEntity<>(foundCategory, HttpStatus.OK);
     }
 
-    // UPDATE
     @PatchMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid CreateCategoryDTO data)
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody CreateCategoryDTO data)
             throws Exception {
         Category updatedCategory = this.categoryService.updateCategory(id, data);
         return new ResponseEntity<Category>(updatedCategory, HttpStatus.CREATED);
     }
 
-    // DELETE
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Category> deleteCategory(@PathVariable Long id) throws Exception {
+        this.categoryService.deleteCategoryById(id);
+        return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
+    }
 }

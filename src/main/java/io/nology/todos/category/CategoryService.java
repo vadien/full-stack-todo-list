@@ -1,5 +1,6 @@
 package io.nology.todos.category;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class CategoryService {
         }
         Category newCategory = new Category();
         newCategory.setName(formattedName);
+        newCategory.setCreatedAt(new Date());
+        newCategory.setUpdatedAt(new Date());
         return this.repo.save(newCategory);
     }
 
@@ -30,7 +33,7 @@ public class CategoryService {
         return this.repo.findById(id);
     }
 
-    public Category updateCategory(Long id, @Valid CreateCategoryDTO data) throws Exception {
+    public Category updateCategory(Long id, CreateCategoryDTO data) throws Exception {
         Optional<Category> maybeCategory = this.repo.findById(id);
         if (maybeCategory.isEmpty()) {
             throw new Exception("No category found with id" + id);
@@ -42,5 +45,13 @@ public class CategoryService {
         }
         foundCategory.setName(formattedName);
         return this.repo.save(foundCategory);
+    }
+
+    public void deleteCategoryById(Long id) throws Exception {
+        Optional<Category> maybeCategory = this.repo.findById(id);
+        if (maybeCategory.isEmpty()) {
+            throw new Exception("No category found with id" + id);
+        }
+        this.repo.deleteById(id);
     }
 }
