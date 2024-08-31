@@ -20,7 +20,6 @@ public class CategoryService {
         if (repo.existsByName(formattedName)) {
             errors.addError("name", String.format("'%s' category already exists", formattedName));
         }
-
         if (!errors.isEmpty()) {
             throw new ServiceValidationException(errors);
         }
