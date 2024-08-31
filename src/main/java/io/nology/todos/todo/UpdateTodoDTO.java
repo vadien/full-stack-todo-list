@@ -2,6 +2,7 @@ package io.nology.todos.todo;
 
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,9 +12,9 @@ public class UpdateTodoDTO {
     @Length(min = 1, max = 255)
     private String title;
 
-    @NotBlank
-    @Length(min = 1, max = 255)
-    private String category;
+    @NotNull
+    @Min(1)
+    private Long categoryId;
 
     @NotNull
     private boolean isArchived;
@@ -22,24 +23,12 @@ public class UpdateTodoDTO {
         return title;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
     public boolean isArchived() {
         return isArchived;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setArchived(boolean isArchived) {
-        this.isArchived = isArchived;
     }
 
 }

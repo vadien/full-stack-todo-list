@@ -2,19 +2,18 @@ package io.nology.todos.todo;
 
 import org.hibernate.validator.constraints.Length;
 
-import io.nology.todos.category.Category;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateTodoDTO {
     @NotBlank
     @Length(min = 1, max = 255)
     private String title;
 
-    // @NotBlank
-    @Length(min = 1, max = 255)
-    private String category;
+    @NotNull
+    @Min(1)
+    private Long categoryId;
 
     // TODO: dueAt
 
@@ -22,16 +21,8 @@ public class CreateTodoDTO {
         return title;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
 }
