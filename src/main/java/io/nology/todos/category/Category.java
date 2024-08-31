@@ -2,6 +2,8 @@ package io.nology.todos.category;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.nology.todos.common.BaseEntity;
 import io.nology.todos.todo.Todo;
 import jakarta.persistence.Column;
@@ -16,6 +18,7 @@ public class Category extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnoreProperties("category")
     private List<Todo> todos;
 
     public Category() {

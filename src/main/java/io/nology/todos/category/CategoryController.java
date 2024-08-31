@@ -3,6 +3,7 @@ package io.nology.todos.category;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.nology.todos.common.exceptions.NotFoundException;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class CategoryController {
     public ResponseEntity<Category> getCategory(@Valid @PathVariable Long id) throws Exception {
         Optional<Category> result = this.categoryService.findById(id);
         if (result.isEmpty()) {
-            throw new Exception("Could not find category with id" + id);
+            throw new NotFoundException("Could not find category with id" + id);
         }
         Category foundCategory = result.get();
         return new ResponseEntity<>(foundCategory, HttpStatus.OK);

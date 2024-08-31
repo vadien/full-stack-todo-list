@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.nology.todos.common.exceptions.NotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +43,7 @@ public class TodoController {
     public ResponseEntity<Todo> findById(@PathVariable long id) throws Exception {
         Optional<Todo> result = this.todoService.findById(id);
         if (result.isEmpty()) {
-            throw new Exception("Could not find todo with id" + id);
+            throw new NotFoundException("Could not find todo with id" + id);
         }
         Todo foundTodo = result.get();
         return new ResponseEntity<>(foundTodo, HttpStatus.OK);
@@ -53,14 +55,14 @@ public class TodoController {
     public ResponseEntity<Todo> updateTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
             throws Exception {
         Optional<Todo> result = this.todoService.updateTodoById(id, data);
-        Todo updatedTodo = result.orElseThrow(() -> new Exception("Could not find post"));
+        Todo updatedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for update"));
         return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Todo> deleteTodoById(@PathVariable Long id) throws Exception {
         Optional<Todo> result = this.todoService.deleteTodoById(id);
-        Todo deletedTodo = result.orElseThrow(() -> new Exception("Could not find post"));
+        Todo deletedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for deletion"));
         return new ResponseEntity<>(deletedTodo, HttpStatus.OK);
     }
 }
