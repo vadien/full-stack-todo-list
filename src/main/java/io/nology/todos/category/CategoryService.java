@@ -1,6 +1,5 @@
 package io.nology.todos.category;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ public class CategoryService {
         }
         Category newCategory = new Category();
         newCategory.setName(formattedName);
-        newCategory.setCreatedAt(new Date());
-        newCategory.setUpdatedAt(new Date());
         return this.repo.save(newCategory);
     }
 

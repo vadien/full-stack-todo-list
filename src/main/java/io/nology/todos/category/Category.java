@@ -3,10 +3,8 @@ package io.nology.todos.category;
 import java.util.List;
 
 import io.nology.todos.common.BaseEntity;
-import io.nology.todos.todo.Todo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,8 +13,8 @@ public class Category extends BaseEntity {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Todo> todos;
+    @Column
+    private List<String> todos;
 
     public Category() {
     }
@@ -29,11 +27,11 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
-    public List<Todo> getTodos() {
+    public List<String> getTodos() {
         return todos;
     }
 
-    public void setTodos(List<Todo> todos) {
+    public void setTodos(List<String> todos) {
         this.todos = todos;
     }
 

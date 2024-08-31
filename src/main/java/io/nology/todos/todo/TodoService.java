@@ -18,10 +18,8 @@ public class TodoService {
         // TODO: fix to use category column join
         Todo newTodo = new Todo();
         newTodo.setTitle(data.getTitle().trim());
-        // newTodo.setCategory();
+        newTodo.setCategory(data.getCategory().trim());
         newTodo.setArchived(false);
-        newTodo.setCreatedAt(new Date());
-        newTodo.setUpdatedAt(new Date());
         return this.repo.save(newTodo);
     }
 
@@ -40,9 +38,8 @@ public class TodoService {
         }
         Todo foundTodo = result.get();
         foundTodo.setTitle(data.getTitle());
-        // foundTodo.setCategory(data.getCategory());
+        foundTodo.setCategory(data.getCategory());
         foundTodo.setArchived(data.isArchived());
-        foundTodo.setUpdatedAt(new Date());
 
         Todo updatedTodo = this.repo.save(foundTodo);
 

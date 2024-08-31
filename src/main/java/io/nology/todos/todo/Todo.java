@@ -24,9 +24,8 @@ public class Todo extends BaseEntity {
     @Column
     private String title;
 
-    @ManyToOne
-    @JoinColumn(columnDefinition = "category_id")
-    private Category category;
+    @Column
+    private String category;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,11 +42,11 @@ public class Todo extends BaseEntity {
         this.title = title;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

@@ -12,9 +12,9 @@ public class CreateTodoDTO {
     @Length(min = 1, max = 255)
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    // @NotBlank
+    @Length(min = 1, max = 255)
+    private String category;
 
     // TODO: dueAt
 
@@ -22,7 +22,7 @@ public class CreateTodoDTO {
         return title;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -30,7 +30,7 @@ public class CreateTodoDTO {
         this.title = title;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
