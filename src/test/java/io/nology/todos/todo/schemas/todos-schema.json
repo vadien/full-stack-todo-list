@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "updatedAt": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "title": {
+        "type": "string"
+      },
+      "category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "createdAt", "updatedAt", "name"]
+      },
+      "dueAt": {
+        "type": ["string", "null"],
+        "format": "date-time"
+      },
+      "archived": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "id",
+      "createdAt",
+      "updatedAt",
+      "title",
+      "category",
+      "archived"
+    ]
+  }
+}

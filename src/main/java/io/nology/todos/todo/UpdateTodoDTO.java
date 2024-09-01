@@ -17,7 +17,7 @@ public class UpdateTodoDTO {
     private Long categoryId;
 
     @NotNull
-    private boolean isArchived;
+    private Boolean isArchived;
 
     public String getTitle() {
         return title;
@@ -27,7 +27,7 @@ public class UpdateTodoDTO {
         return categoryId;
     }
 
-    public boolean isArchived() {
+    public Boolean isArchived() {
         return isArchived;
     }
 

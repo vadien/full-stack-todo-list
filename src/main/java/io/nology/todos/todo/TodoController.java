@@ -28,7 +28,7 @@ public class TodoController {
     private TodoService todoService;
 
     @PostMapping
-    public ResponseEntity<Todo> postMethodName(@Valid @RequestBody CreateTodoDTO data) throws Exception {
+    public ResponseEntity<Todo> createTodo(@Valid @RequestBody CreateTodoDTO data) throws Exception {
         Todo createdTodo = this.todoService.createTodo(data);
         return new ResponseEntity<Todo>(createdTodo, HttpStatus.CREATED);
     }
@@ -57,6 +57,15 @@ public class TodoController {
         Optional<Todo> result = this.todoService.updateTodoById(id, data);
         Todo updatedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for update"));
         return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/archived")
+    public ResponseEntity<Todo> archiveTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
+            throws Exception {
+        Optional<Todo> result = this.todoService.archiveTodoById(id);
+        Todo archivedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for archive"));
+        return new ResponseEntity<>(archivedTodo, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{id}")

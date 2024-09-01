@@ -50,6 +50,7 @@ public class CategoryEndToEndTest {
     }
 
     @Test
+    // Create category succeeds
     public void createCategory_success() {
         CreateCategoryDTO data = new CreateCategoryDTO();
         data.setName("created category");
@@ -70,6 +71,7 @@ public class CategoryEndToEndTest {
     }
 
     @Test
+    // Create category fails due to existing category
     public void createCategory_unique_failure() {
         CreateCategoryDTO data = new CreateCategoryDTO();
         data.setName("sandwiches");
@@ -83,6 +85,7 @@ public class CategoryEndToEndTest {
     }
 
     @Test
+    // Create category fails due to empty string
     public void createCategory_emptyCategory_failure() {
         CreateCategoryDTO data = new CreateCategoryDTO();
         data.setName("");
@@ -93,6 +96,7 @@ public class CategoryEndToEndTest {
     }
 
     @Test
+    // Create category fails due to null value
     public void createCategory_nullCategory_failure() {
         CreateCategoryDTO data = new CreateCategoryDTO();
         given()

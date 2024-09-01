@@ -24,7 +24,7 @@ public class TodoService {
         ValidationErrors errors = new ValidationErrors();
         Todo newTodo = new Todo();
         newTodo.setTitle(data.getTitle().trim());
-        newTodo.setArchived(false);
+        newTodo.setIsArchived(false);
         Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
         if (categoryResult.isEmpty()) {
             errors.addError("category", "Selected category does not exist");
@@ -51,16 +51,22 @@ public class TodoService {
             errors.addError("id", String.format("Could not find post with id %s", id));
         }
         Todo foundTodo = result.get();
-        foundTodo.setTitle(data.getTitle());
-        foundTodo.setArchived(data.isArchived());
-        Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
-        if (categoryResult.isEmpty()) {
-            errors.addError("category", "Selected category does not exist");
+        if (data.getTitle() != null) {
+            foundTodo.setTitle(data.getTitle());
         }
-        if (!errors.isEmpty()) {
-            throw new ServiceValidationException(errors);
+        if (data.getCategoryId() != null) {
+            Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
+            if (categoryResult.isEmpty()) {
+                errors.addError("category", "Selected category does not exist");
+            }
+            if (!errors.isEmpty()) {
+                throw new ServiceValidationException(errors);
+            }
+            foundTodo.setCategory(categoryResult.get());
         }
-        foundTodo.setCategory(categoryResult.get());
+        if (data.isArchived() != null) {
+            foundTodo.setIsArchived(data.isArchived());
+        }
         Todo updatedTodo = this.repo.save(foundTodo);
 
         return Optional.of(updatedTodo);
@@ -73,6 +79,23 @@ public class TodoService {
         }
         this.repo.delete(result.get());
         return result;
+    }
+
+    public Optional<Todo> archiveTodoById(Long id) throws ServiceValidationException {
+        ValidationErrors errors = new ValidationErrors();
+        Optional<Todo> result = this.findById(id);
+        if (result.isEmpty()) {
+            errors.addError("id", String.format("Could not find post with id %s", id));
+        }
+        Todo foundTodo = result.get();
+        foundTodo.setIsArchived(true);
+
+        if (!errors.isEmpty()) {
+            throw new ServiceValidationException(errors);
+        }
+        Todo updatedTodo = this.repo.save(foundTodo);
+
+        return Optional.of(updatedTodo);
     }
 
 }

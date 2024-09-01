@@ -25,4 +25,12 @@ public class CreateTodoDTO {
         return categoryId;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
 }
