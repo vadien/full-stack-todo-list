@@ -36,7 +36,7 @@ public class Todo extends BaseEntity {
     private Date dueAt;
 
     @Column
-    private Boolean isArchived;
+    private Boolean archived;
 
     public String getTitle() {
         return title;
@@ -62,12 +62,12 @@ public class Todo extends BaseEntity {
         this.dueAt = dueAt;
     }
 
-    public boolean isArchived() {
-        return isArchived;
+    public boolean getArchived() {
+        return archived;
     }
 
-    public void setIsArchived(boolean isArchived) {
-        this.isArchived = isArchived;
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
 }

@@ -4,8 +4,11 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -19,6 +22,7 @@ import io.restassured.http.ContentType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
+// @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TodoEndToEndTest {
     @LocalServerPort
     private int port;
@@ -34,7 +38,6 @@ public class TodoEndToEndTest {
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
-        categoryRepository.deleteAll();
 
         Category category1 = new Category();
         category1.setName("sandwiches");
@@ -47,19 +50,23 @@ public class TodoEndToEndTest {
         Todo todo1 = new Todo();
         todo1.setTitle("Make a sandwich");
         todo1.setCategory(category1);
+        todo1.setArchived(false);
         todoRepository.save(todo1);
 
         Todo todo2 = new Todo();
         todo2.setTitle("Make a burger");
-        todo2.setCategory(category2);
+        todo2.setCategory(category1);
+        todo2.setArchived(false);
         todoRepository.save(todo2);
+        todoRepository.flush();
     }
 
     @Test
     public void getAllTodos() {
         given()
                 .when().get("/todos")
-                .then().statusCode(HttpStatus.OK.value())
+                .then()
+                .statusCode(HttpStatus.OK.value())
                 .body("$", hasSize(2))
                 .body("title", hasItems("Make a sandwich", "Make a burger"))
                 .body(matchesJsonSchemaInClasspath("io/nology/todos/todo/schemas/todos-schema.json"));
@@ -79,7 +86,7 @@ public class TodoEndToEndTest {
     public void createTodo_success() {
         CreateTodoDTO data = new CreateTodoDTO();
         data.setTitle("created todo");
-        data.setCategoryId((long) 2); // required cast
+        data.setCategoryId(2L);
         given()
                 .contentType(ContentType.JSON).body(data)
                 .when().post("/todos")
@@ -96,8 +103,14 @@ public class TodoEndToEndTest {
                 .body("title", hasItems("Make a sandwich", "Make a burger", "created todo"));
     }
 
+    // @Test
+    // public void createTodo_failure
     // UPDATE TESTS
-    // I would have written these but apparently rest assured straight up does not
-    // support sending PATCH requests with a body?
-    // May be forced to switch to Playwright if I can't figure out a solution
+
+    @AfterEach
+    public void tearDown() {
+        todoRepository.deleteAll();
+        categoryRepository.deleteAll();
+    }
+
 }
