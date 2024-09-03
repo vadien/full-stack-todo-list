@@ -12,10 +12,24 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 
 ##### Stack:
 
+- Java 21
 - Spring Boot
 - Maven
+- MySQL (database)
 - JUnit/REST assured (testing)
 - H2 Database (testing only)
+
+---
+
+## Build Steps
+
+- Clone the repo to a local folder
+- Create a new MySQL database called `todo_api`
+- Configure `src/main/application.properties` with your relevant information, particularly the port connected to your MySQL database and, if required, your PC's login information
+- Ensure your build is set to use Java 21 in the pom.xml
+- Build the project using `mvn package`
+- Start the project using `mvn spring-boot:run`
+- Jump over to [todo-ui](https://github.com/vadien/todo-app-frontend) to run the frontend!
 
 ---
 
@@ -48,6 +62,7 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 
 ## Future Goals
 
+- Implement backend sort for find Todos method (once I figure out how)
 - Due date/timestamp per todo
 - Sorting by category/update timestamp/due timestamp
 - Search/filter by category/todo
@@ -60,6 +75,11 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 ---
 
 ## Change logs
+
+##### 2024-09-03
+
+- Separate archive functionality from task completion functionality
+- Add build steps to README
 
 ##### 2024-09-02
 

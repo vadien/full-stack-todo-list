@@ -43,7 +43,12 @@ public class TodoService {
 
     public List<Todo> findAllNotArchived() {
         List<Todo> foundAll = this.repo.findAll();
-        List<Todo> foundFiltered = foundAll.stream().filter(todo -> todo.getArchived() == false).toList();
+        List<Todo> foundFiltered = foundAll.stream().filter(todo -> todo.getArchived() == false)
+                // .sorted(Comparator.comparing(Todo::getCompleted))
+                .toList();
+        // Collections.sort(foundFiltered, Comparator.comparing(Todo::getCompleted));
+        // Both above sorts result in various NullPointers and other errors to which
+        // Google is extremely unhelpful
         return foundFiltered;
     }
 
@@ -85,7 +90,6 @@ public class TodoService {
             return result;
         }
         result.get().setArchived(true);
-        System.out.println("Archive set true");
         this.repo.save(result.get());
         return result;
     }
