@@ -25,6 +25,7 @@ public class TodoService {
         Todo newTodo = new Todo();
         newTodo.setTitle(data.getTitle().trim());
         newTodo.setArchived(false);
+        newTodo.setCompleted(false);
         Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
         if (categoryResult.isEmpty()) {
             errors.addError("category", "Selected category does not exist");
@@ -38,6 +39,12 @@ public class TodoService {
 
     public List<Todo> findAll() {
         return this.repo.findAll();
+    }
+
+    public List<Todo> findAllNotArchived() {
+        List<Todo> foundAll = this.repo.findAll();
+        List<Todo> foundFiltered = foundAll.stream().filter(todo -> todo.getArchived() == false).toList();
+        return foundFiltered;
     }
 
     public Optional<Todo> findById(Long id) {
@@ -64,8 +71,8 @@ public class TodoService {
             }
             foundTodo.setCategory(categoryResult.get());
         }
-        if (data.getArchived() != null) {
-            foundTodo.setArchived(data.getArchived());
+        if (data.getCompleted() != null) {
+            foundTodo.setCompleted(data.getCompleted());
         }
         Todo updatedTodo = this.repo.save(foundTodo);
 
@@ -77,18 +84,20 @@ public class TodoService {
         if (result.isEmpty()) {
             return result;
         }
-        this.repo.delete(result.get());
+        result.get().setArchived(true);
+        System.out.println("Archive set true");
+        this.repo.save(result.get());
         return result;
     }
 
-    public Optional<Todo> archiveTodoById(Long id) throws ServiceValidationException {
+    public Optional<Todo> completeTodoById(Long id) throws ServiceValidationException {
         ValidationErrors errors = new ValidationErrors();
         Optional<Todo> result = this.findById(id);
         if (result.isEmpty()) {
             errors.addError("id", String.format("Could not find post with id %s", id));
         }
         Todo foundTodo = result.get();
-        foundTodo.setArchived(true);
+        foundTodo.setCompleted(true);
 
         if (!errors.isEmpty()) {
             throw new ServiceValidationException(errors);

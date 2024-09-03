@@ -17,7 +17,7 @@ public class UpdateTodoDTO {
     private Long categoryId;
 
     @NotNull
-    private Boolean archived;
+    private Boolean completed;
 
     public String getTitle() {
         return title;
@@ -27,13 +27,13 @@ public class UpdateTodoDTO {
         return categoryId;
     }
 
-    public Boolean getArchived() {
-        return archived;
+    public Boolean getCompleted() {
+        return completed;
     }
 
     @Override
     public String toString() {
-        return "UpdateTodoDTO [title=" + title + ", categoryId=" + categoryId + ", getArchived=" + archived + "]";
+        return "UpdateTodoDTO [title=" + title + ", categoryId=" + categoryId + ", getCompleted=" + completed + "]";
     }
 
 }

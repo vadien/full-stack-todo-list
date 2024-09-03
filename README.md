@@ -10,7 +10,7 @@
 
 This project is the corresponding backend for the [todo-ui](https://github.com/vadien/todo-app-frontend) project. The aim is to create a functional API allowing data storage and retrieval, using a full controller-service-repository model, linking to a MySQL database with relational mapping.
 
-Stack:
+##### Stack:
 
 - Spring Boot
 - Maven
@@ -26,6 +26,7 @@ Stack:
 - To implement a complete backend API/database that utilises relational mapping with a corresponding frontend.
 - To follow separation of concerns and DRY coding principles.
 - To test the application using integration and unit testing.
+- To successfully integrate the app with the frontend UI.
 
 ---
 
@@ -50,7 +51,9 @@ Stack:
 - Due date/timestamp per todo
 - Sorting by category/update timestamp/due timestamp
 - Search/filter by category/todo
-- Complete testing suite and github workflow
+- Possible data sanitising on submit (e.g. capitalisation)
+- Complete testing suite
+- Implement CI/CD using github workflow
 - Docker deployment to cloud
 - Full refactoring pass
 
@@ -58,23 +61,21 @@ Stack:
 
 ## Change logs
 
-- Write a paragraph labelled with the date every day you work on the project to discuss what you've done for the say. Be specific about the changes that have happened for that day.
+##### 2024-09-02
 
-##### 2024-08-31
-
-- Refactoring, add PrePersist and PreUpdate to BaseEntity
-- Implement map between todo/category tables, update services/DTOs accordingly
-- Add common exception and error handling across app
+- Complete implementing archive
+- Update README
 
 ##### 2024-09-01
 
 - Add E2E category testing
 - Partial implement archiving (todo completion)
 
-##### 2024-09-02
+##### 2024-08-31
 
-- Complete implementing archive
-- README rewrite
+- Refactoring, add PrePersist and PreUpdate to BaseEntity
+- Implement map between todo/category tables, update services/DTOs accordingly
+- Add common exception and error handling across app
 
 ---
 

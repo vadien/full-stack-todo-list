@@ -35,7 +35,7 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<List<Todo>> findAllTodos() {
-        List<Todo> todoList = this.todoService.findAll();
+        List<Todo> todoList = this.todoService.findAllNotArchived();
         return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
@@ -59,12 +59,12 @@ public class TodoController {
         return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/archived")
-    public ResponseEntity<Todo> archiveTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
+    @PatchMapping("/{id}/complete")
+    public ResponseEntity<Todo> completeTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
             throws Exception {
-        Optional<Todo> result = this.todoService.archiveTodoById(id);
-        Todo archivedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for archive"));
-        return new ResponseEntity<>(archivedTodo, HttpStatus.OK);
+        Optional<Todo> result = this.todoService.completeTodoById(id);
+        Todo completedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for completion"));
+        return new ResponseEntity<>(completedTodo, HttpStatus.OK);
 
     }
 
