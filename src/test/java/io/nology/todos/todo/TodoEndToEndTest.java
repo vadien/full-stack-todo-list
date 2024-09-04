@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.nology.todos.category.Category;
 import io.nology.todos.category.CategoryRepository;
@@ -20,7 +21,6 @@ import io.restassured.http.ContentType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-// @TestMethodOrder(MethodOrderer.MethodName.class)
 public class TodoEndToEndTest {
     @LocalServerPort
     private int port;
@@ -31,7 +31,9 @@ public class TodoEndToEndTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
-    // DOUBLE CHECK ALL DATA IS VALID
+
+    Long testId;
+    Long categoryId;
 
     @BeforeEach
     public void setUp() {
@@ -44,12 +46,14 @@ public class TodoEndToEndTest {
         Category category2 = new Category();
         category2.setName("burgers");
         categoryRepository.save(category2);
+        categoryId = category2.getId();
 
         Todo todo1 = new Todo();
         todo1.setTitle("Make a sandwich");
         todo1.setCategory(category1);
         todo1.setArchived(false);
         todoRepository.save(todo1);
+        testId = todo1.getId();
 
         Todo todo2 = new Todo();
         todo2.setTitle("Make a burger");
@@ -73,7 +77,7 @@ public class TodoEndToEndTest {
     @Test
     public void getTodoById() {
         given()
-                .when().get("/todos/1")
+                .when().get("/todos/{id}", testId)
                 .then().statusCode(HttpStatus.OK.value())
                 .body("title", equalTo("Make a sandwich"));
         // .body(matchesJsonSchemaInClasspath("io/nology/todos/todo/schemas/todo-schema.json"));
@@ -84,7 +88,7 @@ public class TodoEndToEndTest {
     public void createTodo_success() {
         CreateTodoDTO data = new CreateTodoDTO();
         data.setTitle("created todo");
-        data.setCategoryId(2L);
+        data.setCategoryId(categoryId);
         given()
                 .contentType(ContentType.JSON).body(data)
                 .when().post("/todos")

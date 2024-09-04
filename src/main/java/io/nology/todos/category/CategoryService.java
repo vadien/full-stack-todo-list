@@ -37,23 +37,30 @@ public class CategoryService {
     }
 
     public Category updateCategory(Long id, CreateCategoryDTO data) throws Exception {
+        ValidationErrors errors = new ValidationErrors();
         Optional<Category> maybeCategory = this.repo.findById(id);
         if (maybeCategory.isEmpty()) {
-            throw new Exception("No category found with id" + id);
+            errors.addError("category", "Attempted to update category which does not exist");
         }
         Category foundCategory = maybeCategory.get();
         String formattedName = data.getName().trim().toLowerCase();
         if (repo.existsByName(formattedName)) {
-            throw new Exception(String.format("'%s' category already exists", formattedName));
+            errors.addError("category",
+                    String.format("Attempted to rename category to '%s' which already exists", formattedName));
+        }
+        if (!errors.isEmpty()) {
+            throw new ServiceValidationException(errors);
         }
         foundCategory.setName(formattedName);
         return this.repo.save(foundCategory);
     }
 
     public void deleteCategoryById(Long id) throws Exception {
+        ValidationErrors errors = new ValidationErrors();
         Optional<Category> maybeCategory = this.repo.findById(id);
         if (maybeCategory.isEmpty()) {
-            throw new Exception("No category found with id" + id);
+            errors.addError("category",
+                    "Attempted to delete category which does not exist");
         }
         this.repo.deleteById(id);
     }
