@@ -76,6 +76,10 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 
 ## Change logs
 
+##### 2024-09-04
+
+- Standardise error handling across domains
+
 ##### 2024-09-03
 
 - Separate archive functionality from task completion functionality

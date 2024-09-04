@@ -1,5 +1,6 @@
 package io.nology.todos.category;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ public class CategoryEndToEndTest {
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
-        categoryRepository.deleteAll();
 
         Category category1 = new Category();
         category1.setName("sandwiches");
@@ -103,5 +103,10 @@ public class CategoryEndToEndTest {
                 .contentType(ContentType.JSON).body(data)
                 .when().post("/categories")
                 .then().statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @AfterEach
+    void tearDown() {
+        categoryRepository.deleteAll();
     }
 }
