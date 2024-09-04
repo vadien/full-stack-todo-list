@@ -1,5 +1,7 @@
 # TODO List App - Spring API
 
+![workflow badge](https://github.com/vadien/todo-app-backend/actions/workflows/api-testing.yaml/badge.svg)
+
 ## Demo & Snippets
 
 [Link to live]() (NOT YET DEPLOYED)
