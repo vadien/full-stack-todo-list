@@ -56,7 +56,6 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 ## Known issues
 
 - Incomplete testing suite
-- Testing suite passes individually but not concurrently
 
 ---
 
@@ -79,6 +78,9 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 ##### 2024-09-04
 
 - Standardise error handling across domains
+- Initialise Github workflow for backend tests
+- Fix data integrity issue in testing suite
+- Begin unit test coverage
 
 ##### 2024-09-03
 

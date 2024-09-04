@@ -1,6 +1,5 @@
 package io.nology.todos.todo;
 
-import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -35,4 +34,21 @@ public class TodoServiceUnitTests {
         MockitoAnnotations.openMocks(this);
     }
 
+    @Test
+    void createTodo_fails_categoryNotFound() {
+        // given
+        CreateTodoDTO data = new CreateTodoDTO();
+        data.setTitle("data");
+        data.setCategoryId(2L);
+        Todo mockTodo = new Todo();
+        mockTodo.setTitle("mock");
+        Category mockCategory = new Category();
+        mockCategory.setId(1L);
+        // when
+        when(this.categoryService.findById(data.getCategoryId())).thenReturn(Optional.empty());
+        // then
+        assertThrows(ServiceValidationException.class, () -> todoService.createTodo(data));
+
+        verify(repo, never()).save(any());
+    }
 }
