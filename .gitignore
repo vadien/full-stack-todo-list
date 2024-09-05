@@ -5,6 +5,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .DS_Store
+.prettierrc
 
 ### STS ###
 .apt_generated
