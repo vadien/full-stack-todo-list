@@ -69,6 +69,7 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 - Search/filter by category/todo
 - Possible data sanitising on submit (e.g. capitalisation)
 - Complete testing suite
+- Implement logging
 - Implement CI/CD using github workflow
 - Docker deployment to cloud
 - Full refactoring pass
@@ -110,6 +111,7 @@ This project is the corresponding backend for the [todo-ui](https://github.com/v
 ## Struggles
 
 - First project using JUnit/REST Assured testing, ran into difficulties isolating and sanitising tests. Had a big struggle with DataIntegrityViolationException because I was running teardown actions in setup! Also learned a lot about Optionals when trying to find the equivalent return of `isEmpty()` for testing. Takeaway: make sure you know the CAUSE of the problem before you start trying to solve it, not just where the error is coming from.
+- Backend sorting of database todos is proving to be a challenge. I believe the `Comparator` interface in the standard library may be the issue as it is common between both of my attempted solutions. Requires further investigation.
 
 ---
 

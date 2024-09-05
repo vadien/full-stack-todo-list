@@ -14,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import java.util.Optional;
 
-import io.nology.todos.category.Category;
 import io.nology.todos.category.CategoryService;
 import io.nology.todos.common.exceptions.ServiceValidationException;
 
@@ -40,10 +39,7 @@ public class TodoServiceUnitTests {
         CreateTodoDTO data = new CreateTodoDTO();
         data.setTitle("data");
         data.setCategoryId(2L);
-        Todo mockTodo = new Todo();
-        mockTodo.setTitle("mock");
-        Category mockCategory = new Category();
-        mockCategory.setId(1L);
+
         // when
         when(this.categoryService.findById(data.getCategoryId())).thenReturn(Optional.empty());
         // then
@@ -51,4 +47,17 @@ public class TodoServiceUnitTests {
 
         verify(repo, never()).save(any());
     }
+
+    @Test
+    void updateTodo_fails_todoNotFound() {
+        UpdateTodoDTO data = new UpdateTodoDTO();
+        Long testId = 2L;
+
+        when(this.todoService.findById(testId)).thenReturn(Optional.empty());
+
+        assertThrows(ServiceValidationException.class, () -> todoService.updateTodoById(testId, data));
+
+        verify(repo, never()).save(any());
+    }
+
 }

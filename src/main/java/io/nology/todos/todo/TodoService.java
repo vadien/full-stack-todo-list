@@ -60,7 +60,8 @@ public class TodoService {
         ValidationErrors errors = new ValidationErrors();
         Optional<Todo> result = this.findById(id);
         if (result.isEmpty()) {
-            errors.addError("id", String.format("Could not find post with id %s", id));
+            errors.addError("id", String.format("Could not find todo with id %s", id));
+            throw new ServiceValidationException(errors);
         }
         Todo foundTodo = result.get();
         if (data.getTitle() != null) {
@@ -70,8 +71,6 @@ public class TodoService {
             Optional<Category> categoryResult = this.categoryService.findById(data.getCategoryId());
             if (categoryResult.isEmpty()) {
                 errors.addError("category", "Selected category does not exist");
-            }
-            if (!errors.isEmpty()) {
                 throw new ServiceValidationException(errors);
             }
             foundTodo.setCategory(categoryResult.get());
@@ -98,7 +97,7 @@ public class TodoService {
         ValidationErrors errors = new ValidationErrors();
         Optional<Todo> result = this.findById(id);
         if (result.isEmpty()) {
-            errors.addError("id", String.format("Could not find post with id %s", id));
+            errors.addError("id", String.format("Could not find todo with id %s", id));
         }
         Todo foundTodo = result.get();
         foundTodo.setCompleted(true);

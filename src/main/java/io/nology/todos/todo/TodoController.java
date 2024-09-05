@@ -43,7 +43,7 @@ public class TodoController {
     public ResponseEntity<Todo> findById(@PathVariable long id) throws Exception {
         Optional<Todo> result = this.todoService.findById(id);
         if (result.isEmpty()) {
-            throw new NotFoundException("Could not find todo with id" + id);
+            throw new NotFoundException("Could not find todo with id " + id);
         }
         Todo foundTodo = result.get();
         return new ResponseEntity<>(foundTodo, HttpStatus.OK);
@@ -55,7 +55,7 @@ public class TodoController {
     public ResponseEntity<Todo> updateTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
             throws Exception {
         Optional<Todo> result = this.todoService.updateTodoById(id, data);
-        Todo updatedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for update"));
+        Todo updatedTodo = result.orElseThrow(() -> new NotFoundException("Could not find todo for update"));
         return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class TodoController {
     public ResponseEntity<Todo> completeTodoById(@PathVariable Long id, @Valid @RequestBody UpdateTodoDTO data)
             throws Exception {
         Optional<Todo> result = this.todoService.completeTodoById(id);
-        Todo completedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for completion"));
+        Todo completedTodo = result.orElseThrow(() -> new NotFoundException("Could not find todo for completion"));
         return new ResponseEntity<>(completedTodo, HttpStatus.OK);
 
     }
@@ -71,7 +71,7 @@ public class TodoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Todo> deleteTodoById(@PathVariable Long id) throws Exception {
         Optional<Todo> result = this.todoService.deleteTodoById(id);
-        Todo deletedTodo = result.orElseThrow(() -> new NotFoundException("Could not find post for deletion"));
+        Todo deletedTodo = result.orElseThrow(() -> new NotFoundException("Could not find todo for deletion"));
         return new ResponseEntity<>(deletedTodo, HttpStatus.OK);
     }
 }

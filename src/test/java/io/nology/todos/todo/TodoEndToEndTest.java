@@ -2,7 +2,7 @@ package io.nology.todos.todo;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+// import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -104,8 +104,18 @@ public class TodoEndToEndTest {
                 .body("title", hasItems("Make a sandwich", "Make a burger", "created todo"));
     }
 
-    // @Test
-    // public void createTodo_failure
+    @Test
+    public void createTodo_failure_categoryNotFound() {
+        CreateTodoDTO data = new CreateTodoDTO();
+        data.setTitle("Created todo");
+        data.setCategoryId(999L);
+        given()
+                .contentType(ContentType.JSON).body(data)
+                .when().post("/todos")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
+
+    }
+
     // UPDATE TESTS
 
     @AfterEach
